@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 216.51 216.51">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke: url(#radial-gradient-2);
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        fill: none;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-5 {
+        stroke-width: 7px;
+      }
+
+      .cls-2 {
+        stroke: url(#radial-gradient-4);
+      }
+
+      .cls-6 {
+        fill: #a05558;
+      }
+
+      .cls-7 {
+        fill: #c69c6d;
+      }
+
+      .cls-3 {
+        stroke: url(#radial-gradient-3);
+      }
+
+      .cls-4 {
+        stroke: #006837;
+        stroke-width: 13.52px;
+      }
+
+      .cls-5 {
+        stroke: url(#radial-gradient);
+      }
+
+      .cls-8 {
+        fill: #006837;
+        font-family: MyriadPro-Regular, 'Myriad Pro';
+        font-size: 16.47px;
+      }
+
+      .cls-9 {
+        letter-spacing: 0em;
+      }
+
+      .cls-10 {
+        letter-spacing: -.03em;
+      }
+
+      .cls-11 {
+        letter-spacing: 0em;
+      }
+
+      .cls-12 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-13 {
+        letter-spacing: 0em;
+      }
+    </style>
+    <radialGradient id="radial-gradient" cx="108.86" cy="109.1" fx="108.86" fy="109.1" r="22.27" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fff"/>
+      <stop offset="1" stop-color="#d18829"/>
+    </radialGradient>
+    <radialGradient id="radial-gradient-2" cx="108.25" cy="108.5" fx="108.25" fy="108.5" r="22.29" xlink:href="#radial-gradient"/>
+    <radialGradient id="radial-gradient-3" cx="108.86" cy="108.5" fx="108.86" fy="108.5" r="24.51" xlink:href="#radial-gradient"/>
+    <radialGradient id="radial-gradient-4" cx="106.31" cy="106.53" fx="106.31" fy="106.53" r="24.3" xlink:href="#radial-gradient"/>
+  </defs>
+  <rect class="cls-6" width="216.51" height="216.51"/>
+  <line class="cls-4" x1="108.25" x2="108.25" y2="216.51"/>
+  <g>
+    <rect class="cls-7" x="133.08" y="140.66" width="88.48" height="26.36" transform="translate(202.98 -79.51) rotate(55.33)"/>
+    <text class="cls-8" transform="translate(149.63 124.8) rotate(55.33)"><tspan class="cls-10" x="0" y="0">F</tspan><tspan class="cls-12" x="7.59" y="0">r</tspan><tspan x="12.82" y="0">om </tspan><tspan class="cls-11" x="39.09" y="0">S</tspan><tspan class="cls-13" x="47.26" y="0">a</tspan><tspan class="cls-9" x="55.2" y="0">n</tspan><tspan x="64.28" y="0">ta</tspan></text>
+  </g>
+  <line class="cls-4" y1="111.15" x2="216.51" y2="111.15"/>
+  <g>
+    <path class="cls-5" d="M108.25,77.95c.4,20.77.81,41.54,1.21,62.31"/>
+    <path class="cls-1" d="M139.45,107.89c-20.79.4-41.59.81-62.38,1.21"/>
+    <path class="cls-3" d="M132.14,87.76c-15.52,13.83-31.05,27.65-46.57,41.48"/>
+    <path class="cls-2" d="M132.75,123.06c-17.63-11.02-35.26-22.04-52.89-33.06"/>
+  </g>
+</svg>

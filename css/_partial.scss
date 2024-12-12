@@ -1,0 +1,91 @@
+$gameScore-gradient: linear-gradient(#006837,#188975);
+$text-color: #C69C6D;
+$button-bg: #1C2E1C;
+
+@mixin gradient-bg() {
+  background: $gameScore-gradient;
+}
+
+@mixin font(){
+  font-family: "OpenSans-Regular", serif;
+  font-size: 18pt;
+  font-weight: bold;
+  color: $text-color;
+  @font-face {
+    font-family: "OpenSans-Regular";
+    src: url("../font/Open_Sans/OpenSans-Regular.ttf");
+  }
+}
+
+@mixin background-img-settings (){
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+@mixin button-style () {
+  display: flex;
+  margin: 10px auto;
+  background-color: $button-bg;
+  border: none;
+  padding: 20px;
+  @include font;
+  border-radius:20px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px black;
+}
+
+@mixin responsive (){
+
+  @media (max-width: 1000px) {
+    body {
+      p{
+        font-size: 12pt;
+      }
+    }
+    .score-img{
+      width: 50px;
+    }
+    .player-heart {
+      width: 12px;
+    }
+    .img1 {
+      width: 30px;
+      background-color: forestgreen;
+      border-radius: 50%;
+
+    }
+
+    .img2 {
+      width: 50px;
+      background-color: yellow;
+      border-radius: 50%;
+    }
+
+    .img3 {
+      width: 70px;
+      background-color: red;
+      border-radius: 50%;
+    }
+
+
+    .winner-img, .looser-img, p {
+      width: 30%;
+
+    }
+
+    .bearwon {
+      width: 10%;
+    }
+    main{
+      width: 100%;
+    }
+    #game-container {
+      width: 100%;
+      height: 400px;
+    }
+  }
+* button{
+  font-size: 12pt;
+}
+}
+

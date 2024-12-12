@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tornado gifts</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="gsap/all.js" type="module"></script>
+    <script src="index.js" type="module"></script>
+
+</head>
+<body>
+<audio id="grizzly1" src="sounds/grizzly1.mp3"></audio>
+<audio id="grizzly2" src="sounds/grizzly2.mp3"></audio>
+<audio id="bulbsmash" src="sounds/bulbsmash.mp3"></audio>
+<audio id="jinglerock" src="sounds/jinglerock.mp3"></audio>
+<audio id="bell" src="sounds/bell.wav"></audio>
+
+
+<main>
+    <section id="game-scores-container">
+        <div id="game-scores">
+            <div id="player-and-health">
+                <p id="playerp">Player</p>
+                <img class="player-heart" src="images/lifeimg.svg" alt="heart"/>
+                <img class="player-heart" src="images/lifeimg.svg" alt="heart"/>
+                <img class="player-heart" src="images/lifeimg.svg" alt="heart"/>
+            </div>
+            <p id="tornadogifts">Tornado Gifts</p>
+            <p id="elfp">Elf</p>
+        </div>
+
+        <div id="score-and-time">
+            <div>
+                <img class="score-img" src="images/scoreimg.svg" alt="ornaments"/>
+                <p id="player-score">0</p>
+            </div>
+            <div>
+                <p id="game-timer">Time left: </p>
+            </div>
+            <div>
+                <img class="score-img elfscoreimg" src="images/scoreimg.svg" alt="ornaments"/>
+                <p id="elf-score">0</p>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="game-container">
+        <div id="player" class="player-or-elf"></div>
+        <div id="elf" class="player-or-elf"></div>
+        <div id="tornado"></div>
+        <div id="menu">
+            <div id="difficulty-selection" class="menu-section" style="display: block">
+                <p>Choose difficulty</p>
+                <aside>
+                    <a> <img class="tornado-difficulty img1" src="images/snowytornado.svg"
+                             alt=""
+                             data-difficulty="easy"/></a>
+                    <a> <img class="tornado-difficulty img2" src="images/snowytornado.svg"
+                             alt=""
+                             data-difficulty="normal"/></a>
+                    <a> <img class="tornado-difficulty img3" src="images/snowytornado.svg"
+                             alt=""
+                             data-difficulty="hard"/></a>
+                </aside>
+            </div>
+            <div id="winner-timeout" class="menu-section" style="display: none">
+                <p> Winner</p>
+                <img class="winner-img" src="images/player1.svg" alt="player"/>
+                <button onclick="window.location.reload()">Try again</button>
+            </div>
+            <div id="looser-timeout" class="menu-section" style="display: none">
+                <p> The elf won!</p>
+                <img class="looser-img" src="images/player2.svg" alt="elf"/>
+                <button onclick="window.location.reload()">Try again</button>
+            </div>
+            <div id="looser-eaten" class="menu-section" style="display: none">
+                <p>you got eaten!</p>
+                <img class="bearwon" src="images/bear.webp" alt="bear"/>
+                <button onclick="window.location.reload()">Try again</button>
+            </div>
+        </div>
+    </section>
+</main>
+<footer></footer>
+</body>
+</html>
