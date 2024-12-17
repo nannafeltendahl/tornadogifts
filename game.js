@@ -264,7 +264,8 @@ export class Game {
      */
     onGameUpdate() {
 
-        // increases the velocity as the game progresses, the velocityScaleOverTime is different depending on the difficulty of the game
+        // increases the velocity as the game progresses,
+        // the velocityScaleOverTime is different depending on the difficulty of the game
         this.globalVelocityScale = 1.0 + this.velocityScaleOverTime * this.gameTimeline.progress();
 
         //  Updates the state and positions of all game objects (gifts and enemies)
@@ -414,14 +415,8 @@ export class Game {
         // bottom-right position of the container
         const containerMaxBounds = this.getBottomRightPositionOfElementInContainer(this.container);
 
-        // Top-left position of the element in the container
-        const elementPosition = this.getTopLeftPositionOfElementInContainer(element);
-
-        // bottom-right position of the element in the container
-        const elementMaxBounds = this.getBottomRightPositionOfElementInContainer(element);
-
-        // adds half the size of the element to the top-left position to get the center position
-        const elementCenter = elementPosition.add(elementMaxBounds.subtract(elementPosition).multiply(0.5))
+        // get center position of the element relative to the container
+        const elementCenter = this.getCenterPositionOfElementInContainer(element);
 
         // define a default game object far to the left, we will try to find a closer one
         let closestGameObject = new Vec2(-10000, containerMaxBounds.y / 2);
@@ -431,10 +426,8 @@ export class Game {
 
                 if (!gameObject.gameData.isEnemy) {
 
-                    const gameObjectPosition = this.getTopLeftPositionOfElementInContainer(gameObject);
-                    const gameObjectMaxBounds = this.getBottomRightPositionOfElementInContainer(gameObject);
-                    // Here we find the center of the game object, the same way we did with the element above
-                    const gameObjectCenter = gameObjectPosition.add(gameObjectMaxBounds.subtract(gameObjectPosition).multiply(0.5))
+                    // get center position of the game object relative to the container
+                    const gameObjectCenter = this.getCenterPositionOfElementInContainer(gameObject);
 
                     if (elementCenter.subtract(gameObjectCenter).length() < elementCenter.subtract(closestGameObject).length()) {
                         closestGameObject = gameObjectCenter;
