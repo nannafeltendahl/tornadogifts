@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tornado gifts</title>
+    <link rel="icon" type="image/svg+xml" href="images/snowytornado.svg">
     <link rel="stylesheet" href="css/style.css">
     <script src="gsap/all.js" type="module"></script>
     <script src="index.js" type="module"></script>
@@ -36,7 +37,7 @@
                 <p id="player-score">0</p>
             </div>
             <div>
-                <p id="game-timer">Time left: </p>
+                <p id="game-timer"></p>
             </div>
             <div>
                 <img class="score-img elfscoreimg" src="images/scoreimg.svg" alt="ornaments"/>
@@ -50,38 +51,40 @@
         <div id="player" class="player-or-elf"></div>
         <div id="elf" class="player-or-elf"></div>
         <div id="tornado"></div>
-        <div id="menu">
-            <div id="difficulty-selection" class="menu-section" style="display: block">
-                <p>Choose difficulty</p>
-                <aside>
-                    <a> <img class="tornado-difficulty img1" src="images/snowytornado.svg"
-                             alt=""
-                             data-difficulty="easy"/></a>
-                    <a> <img class="tornado-difficulty img2" src="images/snowytornado.svg"
-                             alt=""
-                             data-difficulty="normal"/></a>
-                    <a> <img class="tornado-difficulty img3" src="images/snowytornado.svg"
-                             alt=""
-                             data-difficulty="hard"/></a>
-                </aside>
-            </div>
-            <div id="winner-timeout" class="menu-section" style="display: none">
-                <p> Winner</p>
-                <img class="winner-img" src="images/player1.svg" alt="player"/>
-                <button onclick="window.location.reload()">Try again</button>
-            </div>
-            <div id="looser-timeout" class="menu-section" style="display: none">
-                <p> The elf won!</p>
-                <img class="looser-img" src="images/player2.svg" alt="elf"/>
-                <button onclick="window.location.reload()">Try again</button>
-            </div>
-            <div id="looser-eaten" class="menu-section" style="display: none">
-                <p>you got eaten!</p>
-                <img class="bearwon" src="images/bear.webp" alt="bear"/>
-                <button onclick="window.location.reload()">Try again</button>
-            </div>
-        </div>
     </section>
+
+    <div id="menu">
+        <div id="difficulty-selection" class="menu-section" style="display: block">
+            <img id="player-control-help" src="images/help.svg" alt="Keyboard navigation"/>
+            <p>To start the game - Choose a difficulty</p>
+            <aside>
+                <a> <img class="tornado-difficulty img1" src="images/snowytornado.svg"
+                         alt=""
+                         data-difficulty="easy"/></a>
+                <a> <img class="tornado-difficulty img2" src="images/snowytornado.svg"
+                         alt=""
+                         data-difficulty="normal"/></a>
+                <a> <img class="tornado-difficulty img3" src="images/snowytornado.svg"
+                         alt=""
+                         data-difficulty="hard"/></a>
+            </aside>
+        </div>
+        <div id="winner-timeout" class="menu-section" style="display: none">
+            <p> Winner</p>
+            <img class="winner-img" src="images/player1.svg" alt="player"/>
+            <button onclick="window.location.reload()">Try again</button>
+        </div>
+        <div id="looser-timeout" class="menu-section" style="display: none">
+            <p> The elf won!</p>
+            <img class="looser-img" src="images/player2.svg" alt="elf"/>
+            <button onclick="window.location.reload()">Try again</button>
+        </div>
+        <div id="looser-eaten" class="menu-section" style="display: none">
+            <p>you got eaten!</p>
+            <img class="bearwon" src="images/bear.webp" alt="bear"/>
+            <button onclick="window.location.reload()">Try again</button>
+        </div>
+    </div>
 </main>
 <footer></footer>
 </body>

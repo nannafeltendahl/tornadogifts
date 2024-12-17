@@ -97,6 +97,8 @@ export class Game {
 
         // events
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
+        document.addEventListener('keypress', this.onKeyPress.bind(this));
+        document.addEventListener('keydown', this.onKeyDown.bind(this));
 
         this.resetGameState();
     }
@@ -292,7 +294,39 @@ export class Game {
     onMouseMove(event) {
         if (this.isGameRunning) {
             // allows the player to use the mouse movement (movePLayer), but only if the game is running.
-            this.movePlayer(event);
+            this.movePlayer(event.clientY);
+        }
+    }
+
+    /**
+     * callback for whenever the player presses a key in the browser.
+     * @param event
+     */
+    onKeyPress(event) {
+        if (event.key === 'p' || event.key === 'P') {
+            if (this.gameTimeline.isActive()) {
+                this.gameTimeline.pause();
+                this.jinglerock.pause();
+                this.tornadoAnimation.pause();
+                this.gameTimer.innerHTML = 'Paused';
+            } else if (this.gameTimeline.paused()) {
+                this.gameTimeline.resume();
+                this.jinglerock.play();
+                this.tornadoAnimation.resume();
+            }
+        }
+    }
+
+    /**
+     * callback for whenever the player press a key down in the browser.
+     * @param event
+     */
+    onKeyDown(event) {
+        if (event.key === 'ArrowUp') {
+            this.movePlayerRelative(-1);
+        }
+        if (event.key === 'ArrowDown') {
+            this.movePlayerRelative(1);
         }
     }
 
@@ -414,20 +448,36 @@ export class Game {
 
     /**
      * Moves the player up or down
-     * @param event
+     * @param offsetY how much to move the player, up or down.
      */
-    movePlayer(event) {
+    movePlayer(offsetY) {
+        // only allow player movement if game is active
+        if (!this.gameTimeline.isActive()) {
+            return;
+        }
+
         // Retrieves the size and position og the container
         const containerRect = this.container.getBoundingClientRect();
 
         // Calculate the y coordinates based the mouses position. center the player vertically
-        this.playerY = event.clientY - containerRect.top - this.player.offsetHeight / 2;
+        this.playerY = offsetY - containerRect.top - this.player.offsetHeight / 2;
 
         //Ensures that the player dos`ent move below the top edge and bottom of the container
         this.playerY = Math.max(Math.min(this.playerY, containerRect.height - this.player.offsetHeight), 0);
 
         // uses GSAP animation to animate to players position on the y-axis.
         gsap.to(this.player, {y: this.playerY});
+    }
+
+    /**
+     * Moves the player relatively to the current position.
+     * @param value can either be a positive or negative value to move the player down or up respectively.
+     */
+    movePlayerRelative(value) {
+        const containerRect = this.container.getBoundingClientRect();
+        const playerPosition = containerRect.top + this.getCenterPositionOfElementInContainer(this.player).y;
+        const offsetY = playerPosition + value * 100;
+        this.movePlayer(offsetY);
     }
 
     /**
@@ -761,6 +811,17 @@ export class Game {
         const elementRect = element.getBoundingClientRect();
         const elementPositionBottomRight = new Vec2(elementRect.right, elementRect.bottom);
         return this.getRelativePositionInContainer(elementPositionBottomRight);
+    }
+
+    getCenterPositionOfElementInContainer(element) {
+        // gets top left position of the element within the container
+        const topLeftPosition = this.getTopLeftPositionOfElementInContainer(element);
+
+        // gets bottom right position of the element within the container
+        const bottomRightPosition = this.getBottomRightPositionOfElementInContainer(element);
+
+        // calculate and return the center position
+        return topLeftPosition.add(bottomRightPosition.subtract(topLeftPosition).multiply(0.5));
     }
 
     /**
