@@ -6,7 +6,10 @@ function getRandomDecimalNumber(min, max) {
     return Math.random() * (max - min) + min;
 }
 
-// name is used to give the img an alt tag
+/**
+ * types of gifts
+ * @type {[{src: string, name: string},{src: string, name: string},{src: string, name: string},{src: string, name: string},{src: string, name: string}]}
+ */
 const GIFT_TYPES = [
     {
         src: 'images/box.svg',
@@ -30,6 +33,10 @@ const GIFT_TYPES = [
     }
 ];
 
+/**
+ * types of enemies
+ * @type {[{src: string, name: string}]}
+ */
 const ENEMY_TYPES = [
     {
         src: 'images/bear.webp',
@@ -37,13 +44,18 @@ const ENEMY_TYPES = [
     }
 ];
 
-// reasons for the game to stop. player lost all it´s life (hearths) or time run out.
+/**
+ * reasons for ending the game
+ * @type {{PLAYER_HEALTH: string, TIMEOUT: string}}
+ */
 const STOP_REASON = {
     PLAYER_HEALTH: 'Player Health',
     TIMEOUT: 'Timeout',
 };
 
-
+/**
+ * object to store the current state for game objects (gifts and enemies)
+ */
 class GameObjectData {
     constructor(position, velocity, ignoreTornado, isEnemy) {
         this.position = position;
@@ -53,6 +65,9 @@ class GameObjectData {
     }
 }
 
+/**
+ * object that holds the entire game state and functions to control the game
+ */
 export class Game {
     constructor() {
         // settings
@@ -61,8 +76,8 @@ export class Game {
         this.tornadoMaximumRounds = 25; // maximum rounds to spin per tornado animation
         this.maxGameTimeSeconds = 120; // how long is each round
         this.elfSpeed = 0.0025; // how fast can the elf move (part of game difficulty)
-        this.gameObjectVelocityMin = 1; // how slow can gifts move at the beginning of the game
-        this.gameObjectVelocityMax = 3; // how fast can gifts move at the beginning of the game
+        this.gameObjectVelocityMin = 1; // how slow can the gifts move at the beginning of the game
+        this.gameObjectVelocityMax = 3; // how fast can the gifts move at the beginning of the game
         this.velocityScaleOverTime = 3.0; // how much faster will everything move as the game progresses
         this.maximumGameObjectsInPlay = 7; // maximum amount of gifts in play (on the board)
         this.enemyFraction = 0.3; // chance for the tornado to release an enemy
@@ -86,10 +101,11 @@ export class Game {
         this.resetGameState();
     }
 
-    // resets various game state variables to their initial values, preparing the game for a new start
+    /**
+     * resets various game state variables to their initial values, preparing the game for a new start
+     */
     resetGameState() {
         this.isGameRunning = false; // stops the game
-        this.isDebugEnabled = false; // disables debugging mode
         this.playerY = 0; //resets the players vertical position to 0
         this.playerScore = 0; // resets the players score to 0
         this.playerHealth = this.playerInitialHealth; // resets to players health to full (three hearts)
@@ -111,6 +127,10 @@ export class Game {
         this.nextEnemyType = 0;
     }
 
+    /**
+     * starts the game
+     * @param difficulty difficulty of the game as a string ('easy', 'normal' or 'hard')
+     */
     start(difficulty) {
         // stop game if it´s already running
         this.stop();
@@ -123,28 +143,25 @@ export class Game {
 
         // if or else if statement to run the difficulty mode the player has chosen.
         if (difficulty === 'easy') {
-            // this.maxGameTimeSeconds = 60; // how long is each round
             this.elfSpeed = 0.005; // how fast can the elf move (part of game difficulty)
-            this.gameObjectVelocityMin = 1; // how slow can gifts move at the beginning of the game
-            this.gameObjectVelocityMax = 3; // how fast can gifts move at the beginning of the game
+            this.gameObjectVelocityMin = 1; // how slow can the gifts move at the beginning of the game
+            this.gameObjectVelocityMax = 3; // how fast can the gifts move at the beginning of the game
             this.velocityScaleOverTime = 1.0; // how much faster will everything move as the game progresses
             this.maximumGameObjectsInPlay = 7; // maximum amount of gifts in play (on the board)
             this.enemyFraction = 0.3; // chance for the tornado to release an enemy
 
         } else if (difficulty === 'normal') {
-            // this.maxGameTimeSeconds = 60; // how long is each round
             this.elfSpeed = 0.01; // how fast can the elf move (part of game difficulty)
-            this.gameObjectVelocityMin = 1; // how slow can gifts move at the beginning of the game
-            this.gameObjectVelocityMax = 3; // how fast can gifts move at the beginning of the game
+            this.gameObjectVelocityMin = 1; // how slow can the gifts move at the beginning of the game
+            this.gameObjectVelocityMax = 3; // how fast can the gifts move at the beginning of the game
             this.velocityScaleOverTime = 3.0; // how much faster will everything move as the game progresses
             this.maximumGameObjectsInPlay = 9; // maximum amount of gifts in play (on the board)
             this.enemyFraction = 0.4; // chance for the tornado to release an enemy
 
         } else if (difficulty === 'hard') {
-            // this.maxGameTimeSeconds = 60; // how long is each round
             this.elfSpeed = 0.02; // how fast can the elf move (part of game difficulty)
-            this.gameObjectVelocityMin = 1; // how slow can gifts move at the beginning of the game
-            this.gameObjectVelocityMax = 4; // how fast can gifts move at the beginning of the game
+            this.gameObjectVelocityMin = 1; // how slow can the gifts move at the beginning of the game
+            this.gameObjectVelocityMax = 4; // how fast can the gifts move at the beginning of the game
             this.velocityScaleOverTime = 5.0; // how much faster will everything move as the game progresses
             this.maximumGameObjectsInPlay = 12; // maximum amount of gifts in play (on the board)
             this.enemyFraction = 0.7; // chance for the tornado to release an enemy
@@ -162,20 +179,24 @@ export class Game {
             // bind the onGameComplete function. Called by GSAP everytime the game is completed.
             onComplete: this.onGameComplete.bind(this)
         });
+
         // sets the game running to true
         this.isGameRunning = true;
 
         // update the amount of hearts displayed
         this.updatePlayerHealthDisplay();
 
-        // routed and scale the tornado while the game is running
-        this.spinTornado();
+        // rotate and scale the tornado while the game is running
+        this.startTornado();
 
-        // playes the sound called jinglerock.
+        // play the background music
         this.jinglerock.play();
     }
 
-    // stops the game
+    /**
+     * stops the game
+     * @param reason the reason for stopping the game. see STOP_REASON for details
+     */
     stop(reason) {
         if (!this.isGameRunning) {
             return;
@@ -213,6 +234,11 @@ export class Game {
         }
     }
 
+    /**
+     * formats given seconds into a readable string
+     * @param seconds seconds as a number
+     * @returns {string} readable string in the format: 'minutes:seconds'
+     */
     formatTime(seconds) {
 
         // rounds down the seconds to the nearest whole number
@@ -231,7 +257,9 @@ export class Game {
         return minutes + ':' + formattedSeconds;
     }
 
-    // Updates the game while the game is running
+    /**
+     * Updates the game while the game is running. Called by gsap at every tick of the main game timeline animation.
+     */
     onGameUpdate() {
 
         // increases the velocity as the game progresses, the velocityScaleOverTime is different depending on the difficulty of the game
@@ -250,11 +278,17 @@ export class Game {
         this.gameTimer.innerHTML = this.formatTime(this.maxGameTimeSeconds * (1.0 - this.gameTimeline.progress()));
     }
 
-    //stops the game when the time has run out
+    /**
+     * stops the game when the time has run out. Called by gsap when the main game timeline animation completes.
+     */
     onGameComplete() {
         this.stop(STOP_REASON.TIMEOUT);
     }
 
+    /**
+     * callback for whenever the player moves the mouse in the browser.
+     * @param event
+     */
     onMouseMove(event) {
         if (this.isGameRunning) {
             // allows the player to use the mouse movement (movePLayer), but only if the game is running.
@@ -262,6 +296,10 @@ export class Game {
         }
     }
 
+    /**
+     * gets a random velocity based on min and max velocity and scaled with the current global velocity scale.
+     * @returns {Vec2}
+     */
     getRandomVelocity() {
         return new Vec2(
             // 50 percent of going either towards the player or the elf on the x-axis
@@ -277,6 +315,10 @@ export class Game {
             .multiply(this.globalVelocityScale);
     }
 
+    /**
+     * creates a new game object (gift or enemy), sets a random velocity and direction and adds it to the container.
+     * @param isEnemy true if the game object should be an enemy otherwise a gift.
+     */
     createGameObject(isEnemy) {
 
         // random type of game object
@@ -297,7 +339,7 @@ export class Game {
         // create new element
         const gameObjectElement = document.createElement('img');
 
-        // add a src to the img atrribute
+        // add a src to the img attribute
         gameObjectElement.src = gameObjectType.src;
 
         // adds an alt tag to the img equal to the name added to the specific src
@@ -308,7 +350,7 @@ export class Game {
 
         // creates a new instance off the GameObjectData class
         gameObjectElement.gameData = new GameObjectData(
-            //  startíng position set to center of container
+            //  starting position set to center of container
             this.getRectCenter(this.container.getBoundingClientRect()),
 
             // starting velocity
@@ -329,7 +371,11 @@ export class Game {
         this.gameObjects.add(gameObjectElement);
     }
 
-    // finds the position of the gift closes to the element e.g.: The elf
+    /**
+     * finds the position of the gift closes to the element e.g.: The elf
+     * @param element
+     * @returns {Vec2}
+     */
     getClosestGiftPositionInContainer(element) {
         // bottom-right position of the container
         const containerMaxBounds = this.getBottomRightPositionOfElementInContainer(this.container);
@@ -356,7 +402,7 @@ export class Game {
                     // Here we find the center of the game object, the same way we did with the element above
                     const gameObjectCenter = gameObjectPosition.add(gameObjectMaxBounds.subtract(gameObjectPosition).multiply(0.5))
 
-                    if (elementCenter.subtract(gameObjectCenter).magnitude() < elementCenter.subtract(closestGameObject).magnitude()) {
+                    if (elementCenter.subtract(gameObjectCenter).length() < elementCenter.subtract(closestGameObject).length()) {
                         closestGameObject = gameObjectCenter;
                     }
                 }
@@ -366,6 +412,10 @@ export class Game {
         return closestGameObject;
     }
 
+    /**
+     * Moves the player up or down
+     * @param event
+     */
     movePlayer(event) {
         // Retrieves the size and position og the container
         const containerRect = this.container.getBoundingClientRect();
@@ -380,6 +430,9 @@ export class Game {
         gsap.to(this.player, {y: this.playerY});
     }
 
+    /**
+     * moves the elf up or down
+     */
     moveElf() {
 
         // gets position of the elf within the container
@@ -401,13 +454,24 @@ export class Game {
         gsap.set(this.elf, {y: this.elfY});
     }
 
-    doBoxesOverlap(positionA, positionMaxA, positionB, positionMaxB) {
-        return positionA.x < positionMaxB.x &&
-            positionMaxA.x > positionB.x &&
-            positionA.y < positionMaxB.y &&
-            positionMaxA.y > positionB.y;
+    /**
+     * compute if two boxes overlap given top-left and bottom-right coordinates.
+     * @param topLeftA top left of box A
+     * @param bottomRightA bottom right of box A
+     * @param topLeftB top left of box B
+     * @param bottomRightB bottom right of box B
+     * @returns {boolean} true if the boxes overlap, otherwise false
+     */
+    doBoxesOverlap(topLeftA, bottomRightA, topLeftB, bottomRightB) {
+        return topLeftA.x < bottomRightB.x &&
+            bottomRightA.x > topLeftB.x &&
+            topLeftA.y < bottomRightB.y &&
+            bottomRightA.y > topLeftB.y;
     }
 
+    /**
+     * Updates the state of all game objects. Called on every tick while the game is running.
+     */
     updateGameObjects() {
 
         // get scaled positions and bounds
@@ -417,7 +481,7 @@ export class Game {
         const playerPositionBottomRight = this.getBottomRightPositionOfElementInContainer(this.player);
 
         const elfPositionTopLeft = this.getTopLeftPositionOfElementInContainer(this.elf);
-        const elfPositonBottomRight = this.getBottomRightPositionOfElementInContainer(this.elf);
+        const elfPositionBottomRight = this.getBottomRightPositionOfElementInContainer(this.elf);
 
 
         const tornadoPositionTopLeft = this.getTopLeftPositionOfElementInContainer(this.tornado);
@@ -465,7 +529,7 @@ export class Game {
             }
 
             // gameObject collision with elf (ignore enemies)
-            if (!gameObject.gameData.isEnemy && this.doBoxesOverlap(elfPositionTopLeft, elfPositonBottomRight, gameObjectPositionTopLeft, gameObjectPositionBottomRight)) {
+            if (!gameObject.gameData.isEnemy && this.doBoxesOverlap(elfPositionTopLeft, elfPositionBottomRight, gameObjectPositionTopLeft, gameObjectPositionBottomRight)) {
                 this.elfScore += 1;
                 this.removeGameObject(gameObject);
                 this.updateScores(false, true);
@@ -507,6 +571,11 @@ export class Game {
         });
     }
 
+    /**
+     * Updates the score text for both the player and the elf. Also includes an animation.
+     * @param flashPlayer Score of the player
+     * @param flashElf Score of the elf
+     */
     updateScores(flashPlayer, flashElf) {
         this.playerScoreElement.innerText = `${this.playerScore}`;
         this.elfScoreElement.innerText = `${this.elfScore}`;
@@ -514,31 +583,34 @@ export class Game {
         if (flashPlayer) {
             // uses gsap to animate the score text on the x-axis 5 times in half a second, when the player/elf gets a point
             gsap.to(this.playerScoreElement, {
-                x: "+=20",
-                yoyo: true,
-                repeat: 5,
-                duration: 0.05,
-                ease: "power1.inOut",
+                x: "+=20", // animate to the right
+                yoyo: true, // back and forth like a yoyo
+                repeat: 5, // how many back and forth
+                duration: 0.05, // length of the animation
+                ease: "power1.inOut", // smoothing
                 onComplete: () => {
-                    gsap.to(this.playerScoreElement, {x: 0, duration: 0.05}); // Reset position
+                    gsap.to(this.playerScoreElement, {x: 0, duration: 0.05}); // reset position
                 }
             });
         }
 
         if (flashElf) {
             gsap.to(this.elfScoreElement, {
-                x: "-=20",
-                yoyo: true,
-                repeat: 5,
-                duration: 0.05,
-                ease: "power1.inOut",
+                x: "-=20", // animate to the left
+                yoyo: true, // back and forth like a yoyo
+                repeat: 5, // how many back and forth
+                duration: 0.05, // length of the animation
+                ease: "power1.inOut", // smoothing
                 onComplete: () => {
-                    gsap.to(this.elfScoreElement, {x: 0, duration: 0.05}); // Reset position
+                    gsap.to(this.elfScoreElement, {x: 0, duration: 0.05}); // reset position
                 }
             });
         }
     }
 
+    /**
+     * Updates the visibility of each heart html-element based on current player health
+     */
     updatePlayerHealthDisplay() {
         const playerHeartElements = document.getElementsByClassName('player-heart');
         // iterates over each hearth element with the class player-heart
@@ -556,6 +628,10 @@ export class Game {
         }
     }
 
+    /**
+     * Removes a game object from the container.
+     * @param gameObject
+     */
     removeGameObject(gameObject) {
         //checks if the game object exists in the gameObject
         if (this.gameObjects.has(gameObject)) {
@@ -568,6 +644,11 @@ export class Game {
         }
     }
 
+    /**
+     * Callback for animating the tornado.
+     * Scales the tornado size based on the game progress.
+     * Creates new game objects based on settings.
+     */
     onTornadoAnimationUpdate() {
         if (!this.isGameRunning) {
             return;
@@ -606,7 +687,10 @@ export class Game {
         }
     }
 
-    spinTornado() {
+    /**
+     * Starts the tornado animation. Begins creating game objects.
+     */
+    startTornado() {
         if (!this.isGameRunning) {
             return;
         }
@@ -623,7 +707,7 @@ export class Game {
             duration: this.tornadoAnimationDuration, // the length of the animation
             ease: "power1.inOut", // to smooth acceleration and deceleration.
             onUpdate: this.onTornadoAnimationUpdate.bind(this), // updates during the animation
-            onComplete: this.spinTornado.bind(this) // creating a loop
+            onComplete: this.startTornado.bind(this) // creating a loop
         });
     }
 
@@ -679,6 +763,10 @@ export class Game {
         return this.getRelativePositionInContainer(elementPositionBottomRight);
     }
 
+    /**
+     * Displays the menu
+     * @param id which section to show ('winner-timeout', 'looser-timeout', 'looser-eaten')
+     */
     showMenu(id) {
         // hide all with the class menu-section. using an array for easier iteration
         const menuSection = Array.from(document.getElementsByClassName('menu-section'));

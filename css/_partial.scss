@@ -1,4 +1,4 @@
-$gameScore-gradient: linear-gradient(#006837,#188975);
+$gameScore-gradient: linear-gradient(#006837, #188975);
 $text-color: #C69C6D;
 $button-bg: #1C2E1C;
 
@@ -6,7 +6,7 @@ $button-bg: #1C2E1C;
   background: $gameScore-gradient;
 }
 
-@mixin font(){
+@mixin font() {
   font-family: "OpenSans-Regular", serif;
   font-size: 18pt;
   font-weight: bold;
@@ -17,75 +17,40 @@ $button-bg: #1C2E1C;
   }
 }
 
-@mixin background-img-settings (){
+@mixin background-img-settings() {
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
 }
-@mixin button-style () {
+
+@mixin button-style() {
   display: flex;
   margin: 10px auto;
   background-color: $button-bg;
   border: none;
   padding: 20px;
   @include font;
-  border-radius:20px;
+  border-radius: 20px;
   cursor: pointer;
   box-shadow: 5px 5px 5px black;
 }
 
-@mixin responsive (){
+@mixin responsive() {
 
-  @media (max-width: 1000px) {
-    body {
-      p{
-        font-size: 12pt;
-      }
-    }
-    .score-img{
-      width: 50px;
-    }
-    .player-heart {
-      width: 12px;
-    }
-    .img1 {
-      width: 30px;
-      background-color: forestgreen;
-      border-radius: 50%;
-
-    }
-
-    .img2 {
-      width: 50px;
-      background-color: yellow;
-      border-radius: 50%;
-    }
-
-    .img3 {
-      width: 70px;
-      background-color: red;
-      border-radius: 50%;
-    }
-
-
-    .winner-img, .looser-img, p {
-      width: 30%;
-
-    }
-
-    .bearwon {
-      width: 10%;
-    }
-    main{
-      width: 100%;
-    }
+  @media (max-width: 1550px) {
     #game-container {
-      width: 100%;
-      height: 400px;
+      height: 450px;
     }
+    .score-img {
+      height: 80px;
+      padding: 5px;
+    }
+    .elfscoreimg {
+      justify-self: right;
+    }
+
   }
-* button{
-  font-size: 12pt;
 }
-}
+
+;
 

@@ -23,7 +23,7 @@ header {
 }
 
 main {
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
 }
 
@@ -223,4 +223,4 @@ button {
   height: 12%;
 }
 
-@include responsive();
+@include responsive;
